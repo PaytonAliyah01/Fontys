@@ -1,0 +1,141 @@
+[gd_scene load_steps=4 format=3 uid="uid://clrc2i0rsw4qt"]
+
+[ext_resource type="Texture2D" uid="uid://bixeoefwqyc16" path="res://assets/Characters/Stick-man2.png" id="1_315p0"]
+
+[sub_resource type="GDScript" id="GDScript_0rr1d"]
+script/source = "extends CharacterBody2D
+
+@export var speed: float = 200
+@export var dash_speed: float = 600
+@export var dash_duration: float = 0.2
+@export var dash_cooldown: float = 1.0
+@onready var bullet_scene = preload(\"res://scenes/projectiles/Bullet.tscn\")
+
+var dash_time = 0
+var last_dash = -dash_cooldown
+var movement_velocity: Vector2 = Vector2.ZERO  # Avoids shadowing CharacterBody2D's velocity
+
+@export var max_health: int = 100
+var health: int = max_health
+
+@onready var game_over_label = $GameOverLabel  # Reference to the Label node that will display Game Over
+@onready var timer = $Timer  # Reference to the Timer node
+
+func _ready():
+	# Ensure that the game over label is hidden at the start
+	if game_over_label:
+		game_over_label.visible = false
+	else:
+		print(\"GameOverLabel node not found!\")
+	
+	# Connect the timeout signal of the timer
+	timer.connect(\"timeout\", self, \"_on_Timer_timeout\")
+
+func _process(delta):
+	move(delta)
+	
+	# Check if the player presses the shoot button (e.g., spacebar or mouse click)
+	if Input.is_action_just_pressed(\"shoot\"):
+		shoot()
+
+func move(delta):
+	var direction = Vector2.ZERO
+	
+	# Handling directional movement
+	if Input.is_action_pressed(\"move_up\"):
+		direction.y -= 1
+	if Input.is_action_pressed(\"move_down\"):
+		direction.y += 1
+	if Input.is_action_pressed(\"move_left\"):
+		direction.x -= 1
+	if Input.is_action_pressed(\"move_right\"):
+		direction.x += 1
+
+	# Normalize the direction to ensure consistent speed
+	if direction.length() > 0:
+		direction = direction.normalized()
+
+	# Handle dashing
+	if can_dash():
+		movement_velocity = direction * dash_speed
+		dash_time = dash_duration
+		last_dash = Time.get_ticks_msec() / 1000.0
+	elif dash_time > 0:
+		dash_time -= delta
+		movement_velocity = direction * dash_speed
+	else:
+		movement_velocity = direction * speed
+
+	# Set the velocity
+	velocity = movement_velocity
+
+	# Apply movement with move_and_slide (velocity is already set)
+	move_and_slide()
+
+func can_dash():
+	return Input.is_action_just_pressed(\"dash\") and (Time.get_ticks_msec() / 1000.0 - last_dash >= dash_cooldown)
+
+# The shooting function
+func shoot():
+	var bullet = bullet_scene.instantiate()  # Create the bullet instance
+	get_parent().add_child(bullet)  # Add the bullet to the scene
+
+	bullet.position = position  # Spawn bullet at player's position
+	
+	# Get the direction towards the mouse cursor and normalize it
+	var direction = (get_global_mouse_position() - position).normalized()
+	
+	bullet.direction = direction  # Pass the direction to the bullet
+	bullet.rotation = direction.angle()  # Rotate the bullet to face the direction
+
+func take_damage(amount: int):
+	health -= amount
+	print(\"Player health: \" + str(health))
+
+	if health <= 0:
+		die()
+
+func die():
+	print(\"Player has died!\")
+	if game_over_label:
+		game_over_label.text = \"Game Over\"  # Display \"Game Over\" message
+		game_over_label.visible = true  # Make the label visible
+		timer.start()  # Start the timer to delay the scene change
+
+# Called when the timer reaches the set time
+func _on_Timer_timeout():
+	print(\"Redirecting to start screen...\")
+	get_tree().change_scene(\"res://scenes/start_screen.tscn\")  # Change to the start screen
+es/start_screen.tscn\")  # Change to the start screen
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ljigk"]
+size = Vector2(43, 75)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+position = Vector2(-2, 2)
+script = SubResource("GDScript_0rr1d")
+speed = null
+dash_speed = null
+dash_duration = null
+dash_cooldown = null
+max_health = null
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_315p0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -1.5)
+shape = SubResource("RectangleShape2D_ljigk")
+
+[node name="GameOverLabel" type="Label" parent="."]
+offset_left = 52.0
+offset_top = 12.0
+offset_right = 139.0
+offset_bottom = 35.0
+text = "Game Over"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

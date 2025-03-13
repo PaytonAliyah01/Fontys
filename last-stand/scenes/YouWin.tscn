@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://cotnlqom0lslv"]
+
+[ext_resource type="Script" path="res://scripts/you_win.gd" id="1_7dmbq"]
+[ext_resource type="Texture2D" uid="uid://dvcx0l66lrica" path="res://assets/you win.png" id="2_gj77s"]
+[ext_resource type="Shader" path="res://scenes/HowToPlay.gdshader" id="2_nhb8m"]
+[ext_resource type="Texture2D" uid="uid://cuom7irik3pva" path="res://assets/A desert with a stick-man in a doom and gloom.jpg" id="3_4s611"]
+[ext_resource type="Shader" path="res://scenes/Title.gdshader" id="4_whuck"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p6lk2"]
+shader = ExtResource("2_nhb8m")
+shader_parameter/darken_strength = 0.3
+
+[sub_resource type="Theme" id="Theme_1p36y"]
+default_font_size = 55
+Button/colors/font_color = Color(0.941176, 0.443137, 0.933333, 1)
+
+[sub_resource type="Theme" id="Theme_4bplu"]
+default_font_size = 50
+Button/colors/font_color = Color(0.941176, 0.443137, 0.933333, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wxttx"]
+shader = ExtResource("4_whuck")
+shader_parameter/brightness = 1.3
+
+[node name="YouWin" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_7dmbq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_p6lk2")
+layout_mode = 0
+offset_right = 1965.0
+offset_bottom = 1256.0
+texture = ExtResource("3_4s611")
+
+[node name="HomeButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 872.0
+offset_top = 703.0
+offset_right = 1046.0
+offset_bottom = 787.0
+theme = SubResource("Theme_1p36y")
+text = "HOME"
+
+[node name="RestartButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 846.0
+offset_top = 600.0
+offset_right = 1063.0
+offset_bottom = 677.0
+theme = SubResource("Theme_4bplu")
+text = "RESTART"
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_wxttx")
+layout_mode = 0
+offset_left = 538.0
+offset_top = 329.0
+offset_right = 1395.0
+offset_bottom = 593.0
+texture = ExtResource("2_gj77s")

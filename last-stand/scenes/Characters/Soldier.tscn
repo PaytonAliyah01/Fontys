@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://co8ade6onljbd"]
+
+[ext_resource type="Texture2D" uid="uid://6g4weny4kn20" path="res://assets/Characters/stick-man1.png" id="1_6avy8"]
+[ext_resource type="Script" path="res://scripts/soldier.gd" id="1_id8gc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq4ep"]
+size = Vector2(36, 66)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5qa35"]
+size = Vector2(41, 69)
+
+[node name="Soldier" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_id8gc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.09, 0.09)
+texture = ExtResource("1_6avy8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hq4ep")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["enemies"]]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_5qa35")

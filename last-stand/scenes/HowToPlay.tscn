@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://c6f4juqpm7vb"]
+
+[ext_resource type="Script" path="res://scripts/how_to_play.gd" id="1_ipufn"]
+[ext_resource type="Texture2D" uid="uid://cuom7irik3pva" path="res://assets/A desert with a stick-man in a doom and gloom.jpg" id="2_1gamt"]
+[ext_resource type="Shader" path="res://scenes/HowToPlay.gdshader" id="2_lfvot"]
+[ext_resource type="Shader" path="res://scenes/Title.gdshader" id="4_l4xwl"]
+[ext_resource type="Texture2D" uid="uid://dqu4x2seddkmx" path="res://assets/Player story.png" id="5_gxdyu"]
+[ext_resource type="Texture2D" uid="uid://t2gq04qt0ila" path="res://assets/Game Instructions.png" id="6_514qe"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b8bdp"]
+shader = ExtResource("2_lfvot")
+shader_parameter/darken_strength = 0.5
+
+[sub_resource type="Theme" id="Theme_orcyd"]
+default_font_size = 45
+Button/colors/font_color = Color(0.939601, 0.443592, 0.931919, 1)
+Button/fonts/font = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j83ys"]
+shader = ExtResource("4_l4xwl")
+shader_parameter/brightness = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q6d6o"]
+shader = ExtResource("4_l4xwl")
+shader_parameter/brightness = 2.0
+
+[node name="Howtoplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ipufn")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_b8bdp")
+layout_mode = 0
+offset_right = 1985.0
+offset_bottom = 1198.0
+texture = ExtResource("2_1gamt")
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 773.0
+offset_top = 946.0
+offset_right = 1018.0
+offset_bottom = 1017.0
+theme = SubResource("Theme_orcyd")
+text = "Back"
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_j83ys")
+layout_mode = 0
+offset_right = 1822.0
+offset_bottom = 502.0
+texture = ExtResource("5_gxdyu")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_q6d6o")
+layout_mode = 0
+offset_left = 11.0
+offset_top = 517.0
+offset_right = 1639.0
+offset_bottom = 976.0
+texture = ExtResource("6_514qe")

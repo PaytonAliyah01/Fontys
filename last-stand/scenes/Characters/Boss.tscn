@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://kg5pqkgad8l6"]
+
+[ext_resource type="Script" path="res://scripts/boss.gd" id="1_kbc6n"]
+[ext_resource type="Texture2D" uid="uid://bxr7ukl57tkbr" path="res://assets/Characters/stick-man-Boss.png" id="2_q24s1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u3axj"]
+size = Vector2(122, 222)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5js6v"]
+size = Vector2(147, 230)
+
+[node name="Boss" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_kbc6n")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_q24s1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -2)
+shape = SubResource("RectangleShape2D_u3axj")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["enemies"]]
+position = Vector2(1.5, -2)
+shape = SubResource("RectangleShape2D_5js6v")

@@ -1,0 +1,103 @@
+[gd_scene load_steps=12 format=3 uid="uid://cdcl5pn3bco7u"]
+
+[ext_resource type="PackedScene" uid="uid://clrc2i0rsw4qt" path="res://scenes/Characters/Player.tscn" id="1_1um01"]
+[ext_resource type="Texture2D" uid="uid://burxhnx4njft2" path="res://assets/sand-pattern.png" id="1_3ffyh"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_iutf3"]
+[ext_resource type="Script" path="res://scripts/Spawner.gd" id="2_l5ryy"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="4_hlu0t"]
+
+[sub_resource type="Theme" id="Theme_gidq1"]
+default_font_size = 27
+Button/colors/font_color = Color(0.941176, 0.443137, 0.933333, 1)
+
+[sub_resource type="Theme" id="Theme_dou87"]
+default_font_size = 25
+Label/font_sizes/font_size = 16
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48l71"]
+size = Vector2(2204.25, 199)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fm5db"]
+size = Vector2(129, 1129)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6lq8h"]
+size = Vector2(161, 1115)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y4erp"]
+size = Vector2(2210, 57)
+
+[node name="Main" type="Node2D"]
+position = Vector2(-12, 18)
+script = ExtResource("1_iutf3")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1
+offset_left = -107.0
+offset_top = -160.0
+offset_right = 2091.0
+offset_bottom = 1092.0
+texture = ExtResource("1_3ffyh")
+
+[node name="HomeButton" type="Button" parent="."]
+offset_left = 34.0
+offset_top = -12.0
+offset_right = 141.0
+offset_bottom = 32.0
+theme = SubResource("Theme_gidq1")
+text = "Home"
+
+[node name="Player" parent="." instance=ExtResource("1_1um01")]
+position = Vector2(547, 102)
+script = ExtResource("4_hlu0t")
+dash_duration = 0.3
+dash_cooldown = 2.5
+
+[node name="Spawner" type="Node2D" parent="."]
+position = Vector2(123, 93)
+script = ExtResource("2_l5ryy")
+
+[node name="SpawnTimer" type="Timer" parent="Spawner"]
+wait_time = 3.0
+
+[node name="BossDelayTimer" type="Timer" parent="Spawner"]
+
+[node name="SoldiersLeftLabel" type="Label" parent="Spawner"]
+offset_left = 19.0
+offset_top = -99.0
+offset_right = 121.0
+offset_bottom = -76.0
+theme = SubResource("Theme_dou87")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+
+[node name="SoldiersLeftLabel2" type="Label" parent="Spawner"]
+offset_left = 19.0
+offset_top = -99.0
+offset_right = 121.0
+offset_bottom = -76.0
+theme = SubResource("Theme_dou87")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Top Wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(994.125, -77.5)
+shape = SubResource("RectangleShape2D_48l71")
+
+[node name="Left Wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-41.5, 543.5)
+shape = SubResource("RectangleShape2D_fm5db")
+
+[node name="Right Wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(2009.5, 546.5)
+shape = SubResource("RectangleShape2D_6lq8h")
+
+[node name="Bottom Wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(992, 1086.5)
+scale = Vector2(1.01389, 1)
+shape = SubResource("RectangleShape2D_y4erp")
+
+[connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]

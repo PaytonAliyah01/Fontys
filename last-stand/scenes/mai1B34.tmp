@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://cdcl5pn3bco7u"]
+
+[ext_resource type="PackedScene" uid="uid://clrc2i0rsw4qt" path="res://scenes/Characters/Player.tscn" id="1_1um01"]
+[ext_resource type="Script" path="res://scripts/panel.gd" id="1_i4viq"]
+[ext_resource type="PackedScene" uid="uid://i0ratj7ty3gh" path="res://scenes/projectiles/Bullet.tscn" id="2_8gtru"]
+[ext_resource type="Script" path="res://scripts/color_rect.gd" id="2_lm8h1"]
+[ext_resource type="PackedScene" uid="uid://d3q0a8brl4cy8" path="res://scenes/Characters/Enemy.tscn" id="3_hhckj"]
+[ext_resource type="PackedScene" uid="uid://cia2i8qfe6qej" path="res://scenes/spawners/Spawner.tscn" id="4_65cog"]
+[ext_resource type="PackedScene" uid="uid://b3hwutvvuo6hq" path="res://scenes/ui/UI.tscn" id="5_1dulf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2dhm2"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.614414, 0.252484, 0.810743, 1)
+
+[node name="Main" type="Node2D"]
+position = Vector2(350, -286)
+
+[node name="Characters" type="Node2D" parent="."]
+
+[node name="Player" parent="Characters" instance=ExtResource("1_1um01")]
+position = Vector2(769, 668)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("3_hhckj")]
+position = Vector2(-175, 616)
+
+[node name="Enemy2" parent="Characters" instance=ExtResource("3_hhckj")]
+position = Vector2(198, 313)
+
+[node name="Enemy3" parent="Characters" instance=ExtResource("3_hhckj")]
+position = Vector2(542, 407)
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Bullet" parent="Projectiles" instance=ExtResource("2_8gtru")]
+position = Vector2(-215, 384)
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="Panel" type="Panel" parent="UI"]
+offset_right = 484.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2dhm2")
+script = ExtResource("1_i4viq")
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.614414, 0.252484, 0.810743, 1)
+script = ExtResource("2_lm8h1")
+
+[node name="Ui" parent="UI" instance=ExtResource("5_1dulf")]
+offset_left = -282.0
+offset_top = -316.0
+offset_right = 747.0
+offset_bottom = 81.0
+
+[node name="Spawners" type="Node2D" parent="."]
+
+[node name="Spawner" parent="Spawners" instance=ExtResource("4_65cog")]
+position = Vector2(-144, 811)
